@@ -1,0 +1,50 @@
+# 23 合并K个排序链表
+
+## 题目描述
+
+合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
+
+示例:
+
+```
+输入:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+输出: 1->1->2->3->4->4->5->6
+```
+
+## 代码
+
+```python
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        import heapq
+
+        prev = dummy = ListNode(None)
+        
+        next_nodes = [(l.val,l) for l in lists if l]
+        heapq.heapify(next_nodes)
+        
+        while next_nodes:
+            value, node = heapq.heappop(next_nodes)
+            prev.next = node
+            prev = prev.next
+            if node.next:
+                heapq.heappush(next_nodes, (node.next.val, node.next))
+        return dummy.next
+```
+
+![](../png/23.png)
